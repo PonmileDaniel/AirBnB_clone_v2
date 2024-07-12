@@ -1,17 +1,16 @@
-#!/usr/bin/python3
-""" Function that create a folder """
-from datetime import datetime
+#!/usr/bin/env python3
+"""Function that create .tgz"""
 from fabric.api import local
-import os
+from fabric import task
+from datetime import datetime
 
 
 def do_pack():
-    try:
-        if not os.path.exists("versions"):
-            local('mkdir versions')
-        f = "%Y%m%d%H%M%S"
-        arcpath = 'versions/web_static_{}.tgz'.format(datetime.now().strftime(f))
-        local('tar -cvzf {} web_static'.format(arcpath))
-        return arcpath
-    except:
+    local('mkdir -p versions')
+    date_str = datetime.now().strftime('%Y%m%d%H%M%S')
+    archive_name = f"versions/web_static_{date_str}.tgz"
+    result = local(f"tar -cvzf {archive_name} web_static")
+    if result.succeeded:
+        return archive_name
+    else:
         return None
