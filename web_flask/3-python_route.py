@@ -23,6 +23,7 @@ def c_text(text):
     """Func for c"""
     return "C " + text.replace('_', ' ')
 
+
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def python_text(text="is cool"):
